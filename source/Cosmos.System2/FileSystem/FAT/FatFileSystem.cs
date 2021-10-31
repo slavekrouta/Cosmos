@@ -88,13 +88,14 @@ namespace Cosmos.System.FileSystem.FAT
             /// <exception cref="NotSupportedException">Thrown when FAT type is unknown.</exception>
             public uint[] GetFatChain(uint aFirstEntry, long aDataSize = 0)
             {
+                global::System.Console.WriteLine("GetFatChain() start");
                 Global.mFileSystemDebugger.SendInternal("-- Fat.GetFatChain --");
                 Global.mFileSystemDebugger.SendInternal("aFirstEntry =");
                 Global.mFileSystemDebugger.SendInternal(aFirstEntry);
                 Global.mFileSystemDebugger.SendInternal("aDataSize =");
                 Global.mFileSystemDebugger.SendInternal(aDataSize);
 
-                var xReturn = new uint[0];
+                var xReturn = new List<uint>();
                 uint xCurrentEntry = aFirstEntry;
                 uint xValue;
 
@@ -105,15 +106,14 @@ namespace Cosmos.System.FileSystem.FAT
                 }
 
                 GetFatEntry(xCurrentEntry, out xValue);
-                Array.Resize(ref xReturn, xReturn.Length + 1);
-                xReturn[xReturn.Length - 1] = xCurrentEntry;
+                xReturn.Add(xCurrentEntry);
 
                 Global.mFileSystemDebugger.SendInternal("xEntriesRequired =");
                 Global.mFileSystemDebugger.SendInternal(xEntriesRequired);
                 Global.mFileSystemDebugger.SendInternal("xCurrentEntry =");
                 Global.mFileSystemDebugger.SendInternal(xCurrentEntry);
                 Global.mFileSystemDebugger.SendInternal("xReturn.Length =");
-                Global.mFileSystemDebugger.SendInternal(xReturn.Length);
+                Global.mFileSystemDebugger.SendInternal(xReturn.Count);
 
                 if (xEntriesRequired > 0)
                 {
@@ -121,35 +121,33 @@ namespace Cosmos.System.FileSystem.FAT
                     {
                         xCurrentEntry = xValue;
                         GetFatEntry(xCurrentEntry, out xValue);
-                        Array.Resize(ref xReturn, xReturn.Length + 1);
-                        xReturn[xReturn.Length - 1] = xCurrentEntry;
+                        xReturn.Add(xCurrentEntry);
                         Global.mFileSystemDebugger.SendInternal("xCurrentEntry =");
                         Global.mFileSystemDebugger.SendInternal(xCurrentEntry);
                         Global.mFileSystemDebugger.SendInternal("xReturn.Length =");
-                        Global.mFileSystemDebugger.SendInternal(xReturn.Length);
+                        Global.mFileSystemDebugger.SendInternal(xReturn.Count);
                     }
 
-                    if (xEntriesRequired > xReturn.Length)
+                    if (xEntriesRequired > xReturn.Count)
                     {
-                        long xNewClusters = xEntriesRequired - xReturn.Length;
+                        long xNewClusters = xEntriesRequired - xReturn.Count;
                         for (int i = 0; i < xNewClusters; i++)
                         {
                             xCurrentEntry = GetNextUnallocatedFatEntry();
                             mFileSystem.Write(xCurrentEntry, new byte[mFileSystem.BytesPerCluster]);
-                            uint xLastFatEntry = xReturn[xReturn.Length - 1];
+                            uint xLastFatEntry = xReturn[xReturn.Count - 1];
                             SetFatEntry(xLastFatEntry, xCurrentEntry);
                             SetFatEntry(xCurrentEntry, FatEntryEofValue());
-                            Array.Resize(ref xReturn, xReturn.Length + 1);
-                            xReturn[xReturn.Length - 1] = xCurrentEntry;
+                            xReturn.Add(xCurrentEntry);
                         }
                     }
                 }
 
                 string xChain = "";
-                for (int i = 0; i < xReturn.Length; i++)
+                for (int i = 0; i < xReturn.Count; i++)
                 {
                     xChain += xReturn[i];
-                    if (i > 0 || i < xReturn.Length - 1)
+                    if (i > 0 || i < xReturn.Count - 1)
                     {
                         xChain += "->";
                     }
@@ -158,8 +156,8 @@ namespace Cosmos.System.FileSystem.FAT
                 Global.mFileSystemDebugger.SendInternal(xChain);
 
                 SetFatEntry(xCurrentEntry, FatEntryEofValue());
-
-                return xReturn;
+                global::System.Console.WriteLine("GetFatChain() end");
+                return xReturn.ToArray();
             }
 
             /// <summary>

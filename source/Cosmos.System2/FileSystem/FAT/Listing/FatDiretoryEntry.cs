@@ -107,11 +107,14 @@ namespace Cosmos.System.FileSystem.FAT.Listing
         /// <exception cref="ArgumentNullException">Thrown when aData is null.</exception>
         public uint[] GetFatTable()
         {
+            global::System.Console.WriteLine("GetFatTable() start");
             Global.mFileSystemDebugger.SendInternal("-- FatDirectoryEntry.GetFatTable --");
-
+            global::System.Console.WriteLine("GetFatTable() before GetFat");
             var xFat = ((FatFileSystem)mFileSystem).GetFat(0);
+            global::System.Console.WriteLine("GetFatTable() before GetFatChain");
             var vs = xFat?.GetFatChain(mFirstClusterNum, mSize);
             Global.mFileSystemDebugger.SendInternal("-- ----------------------------- --");
+            global::System.Console.WriteLine("GetFatTable() end");
             return vs;
         }
 
