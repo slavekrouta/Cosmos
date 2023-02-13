@@ -7,14 +7,14 @@ using Cosmos.HAL;
 namespace Cosmos.System.ScanMaps
 {
     /// <summary>
-    /// US_Standard class. Represent US_Standard keyboard layout.
+    /// CZ_Standard class. Represent CZ_Standard keyboard layout.
     /// </summary>
-    public class US_Standard : ScanMapBase
+    public class CZ_Standard : ScanMapBase
     {
         /// <summary>
-        /// Create new instance of the <see cref="US_Standard"/> class.
+        /// Create new instance of the <see cref="CZ_Standard"/> class.
         /// </summary>
-        public US_Standard()
+        public CZ_Standard()
         {
         }
 
@@ -31,13 +31,13 @@ namespace Cosmos.System.ScanMaps
             _keys.Add(new KeyMapping(0x00, ConsoleKeyEx.NoName));
             _keys.Add(new KeyMapping(0x01, ConsoleKeyEx.Escape));
             /* 1 -> 9 */
-            _keys.Add(new KeyMapping(0x02, '1', '!', '1', '1', '!', '1', ConsoleKeyEx.D1));
-            _keys.Add(new KeyMapping(0x03, '2', '@', '2', '2', '@', '2', ConsoleKeyEx.D2));
-            _keys.Add(new KeyMapping(0x04, '3', '#', '3', '3', '#', '3', ConsoleKeyEx.D3));
-            _keys.Add(new KeyMapping(0x05, '4', '$', '4', '4', '$', '4', ConsoleKeyEx.D4));
-            _keys.Add(new KeyMapping(0x06, '5', '%', '5', '5', '%', '5', ConsoleKeyEx.D5));
-            _keys.Add(new KeyMapping(0x07, '6', '^', '6', '6', '^', '6', ConsoleKeyEx.D6));
-            _keys.Add(new KeyMapping(0x08, '7', '&', '7', '7', '&', '7', ConsoleKeyEx.D7));
+            _keys.Add(new KeyMapping(0x02, '+', '1', '~', '+', '1', '1', ConsoleKeyEx.D1));
+            _keys.Add(new KeyMapping(0x03, 'ě', '2', 'ˇ', 'Ě', '2', '2', ConsoleKeyEx.D2));
+            _keys.Add(new KeyMapping(0x04, 'š', '3', '^', 'Š', '3', '3', ConsoleKeyEx.D3));
+            _keys.Add(new KeyMapping(0x05, 'č', '4', '˘', 'Č', '4', '4', ConsoleKeyEx.D4));
+            _keys.Add(new KeyMapping(0x06, 'ř', '5', '°', 'Ř', '5', '5', ConsoleKeyEx.D5));
+            _keys.Add(new KeyMapping(0x07, 'ž', '6', '˛', 'Ž', '6', '6', ConsoleKeyEx.D6));
+            _keys.Add(new KeyMapping(0x08, 'ý', '7', '`', 'Ý', '7', '7', ConsoleKeyEx.D7));
             _keys.Add(new KeyMapping(0x09, '8', '*', '8', '8', '*', '8', ConsoleKeyEx.D8));
             _keys.Add(new KeyMapping(0x0A, '9', '(', '9', '9', '(', '9', ConsoleKeyEx.D9));
             _keys.Add(new KeyMapping(0x0B, '0', ')', '0', '0', ')', '0', ConsoleKeyEx.D0));
